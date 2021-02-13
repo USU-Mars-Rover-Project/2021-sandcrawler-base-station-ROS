@@ -1,0 +1,102 @@
+#include <ros/ros.h>		//Always include for a ROS node
+#include <sensor_msgs/Joy.h>	//Include for control messages from game controller
+#include <std_msgs/UInt8MultiArray.h>     // To be able to publish uint8 values, need this header file [there is one for mulit array "UInt8MultiArray.h"]
+#include <std_msgs/MultiArrayDimension.h> // Where the name for the array being sent is assigned and the size of the array, feeds into UInt8MultiArray.h
+#include <iostream>
+#include <vector>
+#include <cmath>
+
+using namespace std;
+// Output Indices 
+#define LEFT_JOY1 	0 // The left joystick value will be assigned in the first position in the joystick output array.
+#define LEFT_JOY2       1
+#define LEFT_JOY3       2
+#define RIGHT_JOY1	3
+#define RIGHT_JOY2      4
+#define RIGHT_JOY3      5
+
+// Global Variable
+std_msgs::UInt8MultiArray joyoutput;
+std_msgs::MultiArrayDimension joyoutput_specs;
+unsigned char message_sending[6];
+
+void joystickSaver(const sensor_msgs::Joy::ConstPtr& joy){
+  float left_joy = joy -> axes[1]; 
+  float right_joy = joy -> axes[4];
+  unsigned char l_j;
+  unsigned char r_j;
+
+
+  if (left_joy < 0){
+    l_j = 127 - 127*abs(left_joy);
+  }
+  else if (left_joy > 0){
+    l_j = 127 + 127*abs(left_joy);
+    l_j = l_j + 1;
+  } 
+  else {
+    l_j = 127;
+  }
+
+ if (right_joy < 0){
+    r_j = 127 - 127*abs(right_joy);
+  }
+  else if (right_joy > 0){
+    r_j = 127 + 127*abs(right_joy);
+    r_j = r_j + 1;
+  } 
+  else {
+    r_j = 127;
+  }
+ 
+
+  message_sending[LEFT_JOY1] = l_j;
+  message_sending[LEFT_JOY2] = l_j;
+  message_sending[LEFT_JOY3] = l_j;
+  message_sending[RIGHT_JOY1] = r_j;
+  message_sending[RIGHT_JOY2] = r_j;
+  message_sending[RIGHT_JOY3] = r_j;
+  /*
+  for (int i=2;i<6;i++){
+  message_sending[i] = 0;
+  }
+  */
+}
+
+int main(int argc, char **argv){
+  ros::init(argc, argv, "nav_msg");
+  ros::NodeHandle n;
+  // Subscribe to Joy topic to recieve the game controller inputs
+  ros::Subscriber joy_in = n.subscribe("joy", 1, joystickSaver);
+
+  ros::Publisher joy_publish = n.advertise<std_msgs::UInt8MultiArray>("nav_joy_values", 1);
+
+  ros::Rate rate(20);
+  while (ros::ok()) {
+      joyoutput_specs.label = "nav_msg";
+      joyoutput_specs.size = 6;
+      joyoutput.layout.dim.clear();
+      joyoutput.layout.dim.push_back(joyoutput_specs);
+
+      joyoutput.data.clear();
+
+/* "push_back" only puts one value at a time into the data array in "UInt8MultiArray. The first term entered will be the last term in the array.[3] */
+      for (int h=0;h<6;h++){
+        joyoutput.data.push_back(message_sending[h]);
+	}
+      /* joyoutput.data.insert(joyoutput.data.end(),message_sending.begin(),message_sending.end() );*/
+
+      joy_publish.publish(joyoutput);
+   
+      ros::spinOnce();
+
+      rate.sleep();
+   }
+ return 0;
+}
+
+/*
+[1]  UInt8MultiArray [https://answers.ros.org/question/37185/how-to-initialize-a-uint8multiarray-message/]
+[2] Example code of working with UInt8MultiArray [https://raw.githubusercontent.com/durovsky/siemens_tutorials/master/siemens_cp1616_io_device_tutorial/doc/doc_siemens_cp1616_io_device_tutorial_node.cpp]
+[3]http://docs.ros.org/electric/api/std_msgs/html/UInt8MultiArray_8h_source.html
+*/

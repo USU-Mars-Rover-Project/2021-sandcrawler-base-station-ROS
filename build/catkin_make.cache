@@ -1,0 +1,2 @@
+hab_sim:joy:joy_transmit:manipulation_control:message_serializer:serial:vision
+-DCATKIN_DEVEL_PREFIX=/home/ares/ares2_ws/devel -DCMAKE_INSTALL_PREFIX=/home/ares/ares2_ws/install -G Unix Makefiles

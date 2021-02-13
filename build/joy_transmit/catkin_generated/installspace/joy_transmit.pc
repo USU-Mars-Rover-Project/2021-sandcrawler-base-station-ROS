@@ -1,0 +1,8 @@
+prefix=/home/ares/ares2_ws/install
+
+Name: joy_transmit
+Description: Description of joy_transmit
+Version: 0.0.0
+Cflags: -I/home/ares/ares2_ws/install/include
+Libs: -L/home/ares/ares2_ws/install/lib -ljoy_transmit
+Requires: joy roscpp serial

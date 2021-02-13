@@ -1,0 +1,8 @@
+prefix=/home/ares/ares2_ws/devel
+
+Name: vision
+Description: Description of vision
+Version: 1.0.0
+Cflags: 
+Libs: -L/home/ares/ares2_ws/devel/lib 
+Requires: 

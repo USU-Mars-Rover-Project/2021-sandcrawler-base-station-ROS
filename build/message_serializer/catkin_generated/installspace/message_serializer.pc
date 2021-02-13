@@ -1,0 +1,8 @@
+prefix=/home/ares/ares2_ws/install
+
+Name: message_serializer
+Description: Description of message_serializer
+Version: 0.0.0
+Cflags: -I/home/ares/ares2_ws/install/include
+Libs: -L/home/ares/ares2_ws/install/lib -lmessage_serializer
+Requires: roscpp rospy std_msgs

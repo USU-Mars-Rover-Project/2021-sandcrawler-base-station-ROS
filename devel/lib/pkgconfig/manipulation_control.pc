@@ -1,0 +1,8 @@
+prefix=/home/ares/ares2_ws/devel
+
+Name: manipulation_control
+Description: Description of manipulation_control
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/ares/ares2_ws/devel/lib 
+Requires: 

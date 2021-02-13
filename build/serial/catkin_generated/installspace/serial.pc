@@ -1,0 +1,8 @@
+prefix=/home/ares/ares2_ws/install
+
+Name: serial
+Description: Description of serial
+Version: 1.2.1
+Cflags: -I/home/ares/ares2_ws/install/include
+Libs: -L/home/ares/ares2_ws/install/lib -lserial -lrt -lpthread
+Requires: 

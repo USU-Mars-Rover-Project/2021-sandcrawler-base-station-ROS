@@ -1,0 +1,8 @@
+prefix=/home/ares/ares2_ws/install
+
+Name: joy_to_serial
+Description: Description of joy_to_serial
+Version: 0.0.0
+Cflags: -I/home/ares/ares2_ws/install/include
+Libs: -L/home/ares/ares2_ws/install/lib -ljoy_to_serial
+Requires: roscpp rospy std_msgs

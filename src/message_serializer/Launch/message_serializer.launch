@@ -1,0 +1,17 @@
+<launch>
+	<!-- joy node [http://wiki.ros.org/joy/Tutorials/WritingTeleopNode]-->
+	<node respawn="true" pkg="joy" type="joy_node" name="joy_node">
+		<param name="dev" type="string" value="/dev/input/js0" />
+		<param name="deadzone" value="0.12" />
+	</node>
+
+	<!-- Nav Message -->
+	<node pkg="message_serializer" type="nav_msg_node" name="nav_msg_node" />
+
+	<!-- Serialization Code -->
+	<!-- <node pkg="message_serializer" type="message_serializer_node" name="message_serializer_node" /> -->
+
+
+
+
+</launch>
